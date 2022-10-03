@@ -65,7 +65,7 @@ export const HomeScreen = ({route}: any) => {
   const [selectedNetPrinter, setSelectedNetPrinter] =
     React.useState<DeviceType>({
       device_name: 'My Net Printer',
-      host: '192.168.0.101', // your host
+      host: '192.168.8.110', // your host
       port: PORT, // your port
       printerType: DevicesEnum.net,
     });
@@ -190,6 +190,12 @@ export const HomeScreen = ({route}: any) => {
     const BOLD_OFF = COMMANDS.TEXT_FORMAT.TXT_BOLD_OFF;
     const CENTER = COMMANDS.TEXT_FORMAT.TXT_ALIGN_CT;
     const OFF_CENTER = COMMANDS.TEXT_FORMAT.TXT_ALIGN_LT;
+    const RIGHT = COMMANDS.TEXT_FORMAT.TXT_ALIGN_RT;
+    const TXT_CUSTOM_SIZE = COMMANDS.TEXT_FORMAT.TXT_CUSTOM_SIZE(80, 80);
+    const TXT_4SQUARE = COMMANDS.TEXT_FORMAT.TXT_4SQUARE;
+    const CTL_HT = COMMANDS.FEED_CONTROL_SEQUENCES.CTL_HT;
+    const REVERSE = '\x1DB\x01';
+    const POUND = '\u{20AC}';
     try {
       const getDataURL = () => {
         (QrRef as any).toDataURL(callback);
@@ -199,47 +205,82 @@ export const HomeScreen = ({route}: any) => {
         // Can print android and ios with the same type or with encoder for android
         if (Platform.OS === 'android' || Platform.OS === 'ios') {
           const Printer: typeof NetPrinter = printerList[selectedValue];
-          Printer.printImage(
-            `https://sportshub.cbsistatic.com/i/2021/04/09/9df74632-fde2-421e-bc6f-d4bf631bf8e5/one-piece-trafalgar-law-wano-anime-1246430.jpg`,
-            {
-              imageWidth: 300,
-              imageHeight: 300,
-            },
-          );
-          Printer.printText(`${CENTER}${BOLD_ON} BILLING ${BOLD_OFF}\n`);
-          Printer.printText(`${CENTER}${address}${OFF_CENTER}`);
-          Printer.printText('090 3399 031 555\n');
-          Printer.printText(`Date : 15- 09 - 2021 /15 : 29 : 57 / Admin`);
-          Printer.printText(`Product : Total - 4 / No. (1,2,3,4)\n`);
-          Printer.printText(
-            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR_80MM}${CENTER}`,
-          );
-          let orderList = [
-            ['1. Skirt Palas Labuh Muslimah Fashion', 'x2', '500$'],
-            ['2. BLOUSE ROPOL VIRAL MUSLIMAH FASHION', 'x4222', '500$'],
-            [
-              '3. Women Crew Neck Button Down Ruffle Collar Loose Blouse',
-              'x1',
-              '30000000000000$',
-            ],
-            ['4. Retro Buttons Up Full Sleeve Loose', 'x10', '200$'],
-            ['5. Retro Buttons Up', 'x10', '200$'],
-          ];
-          let columnAliment = [
+          // Printer.printImage(
+          //   `https://sportshub.cbsistatic.com/i/2021/04/09/9df74632-fde2-421e-bc6f-d4bf631bf8e5/one-piece-trafalgar-law-wano-anime-1246430.jpg`,
+          //   {
+          //     imageWidth: 300,
+          //     imageHeight: 300,
+          //   },
+          // );
+          let headerColumnAliment = [
             ColumnAliment.LEFT,
-            ColumnAliment.CENTER,
             ColumnAliment.RIGHT,
           ];
-          let columnWidth = [46 - (7 + 12), 7, 12];
-          const header = ['Product list', 'Qty', 'Price'];
-          Printer.printColumnsText(header, columnWidth, columnAliment, [
-            `${BOLD_ON}`,
-            '',
-            '',
+          let headerColumnWidth = [23 - (7),  7];
+          const headers = ['Uber', '#002cd'];
+          Printer.printColumnsText(headers, headerColumnWidth, headerColumnAliment, [
+            `${BOLD_ON}${TXT_4SQUARE}`,`${TXT_4SQUARE}`,
           ]);
+          Printer.printText(`${CENTER}Order placed: 03 Mar 2022 at 6:45pm${BOLD_OFF}`);
+          Printer.printText(`${CENTER}Pickup - 03 Mar 2022 at ${BOLD_OFF}\n`);
+          let reverseColumnAliment = [
+            ColumnAliment.CENTER,
+          ];
+          let reverseColumnWidth = [46];
+          const reverse = ['8.30pm'];
+          Printer.printColumnsText(reverse, reverseColumnWidth, reverseColumnAliment, [
+            `${BOLD_ON}${REVERSE}`,
+          ]);
+          Printer.printText(`\n${CENTER}${TXT_4SQUARE}STORE DELIVERY\n`);
+         
+          let addressColumnAliment = [
+            ColumnAliment.CENTER,
+          ];
+          let addressColumnWidth = [46];
+          const address = ['Unit 11, 328 Bath Road, Hounslow, TW4 7HW\n'];
           Printer.printText(
-            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR3_80MM}${CENTER}`,
+            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
           );
+          Printer.printColumnsText(address, addressColumnWidth, addressColumnAliment);         
+          Printer.printText(`${CENTER}$Contact: +44132364340\n`);
+          Printer.printText(`${CENTER}Pin: 547347\n`);
+
+          Printer.printText(
+            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
+          );
+          
+          let orderList = [
+            ['[1x]', 'Smoking patty special', `${POUND}10.97`],
+            ['', ' | Choice of size', ''],
+            ['', ' [1x] 80z', ''],
+            ['', ' | Choice of Add-on', ''],
+            ['', '[1x] Add premium potato chips, agarlic mayo dip & choice of drink', ''],
+            ['', ' | Choice of Drinks', ''],
+            ['', ' [1x] Fanta', ''],
+            ['[1x]', 'Texas Ranch', '9.97'],
+            ['', ' | Choice of size', ''],
+            ['', ' [1x] 60z', ''],
+            ['', ' | Choice of Add-on', ''],
+            ['', '[1x] Add premium potato chips, agarlic mayo dip & choice of drink', ''],
+            ['', ' | Choice of Drinks', ''],
+            ['', ' [1x] Pepsi', ''],
+          ];
+
+          let columnAliment = [
+            ColumnAliment.LEFT,
+            ColumnAliment.LEFT,
+            ColumnAliment.RIGHT,
+          ];
+          let columnWidth = [4, 46 - (4 + 12), 12];
+          // const header = ['Product list', 'Qty', 'Price'];
+          // Printer.printColumnsText(header, columnWidth, columnAliment, [
+          //   `${BOLD_ON}`,
+          //   '',
+          //   '',
+          // ]);
+          // Printer.printText(
+          //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR3_80MM}${CENTER}`,
+          // );
           for (let i in orderList) {
             Printer.printColumnsText(orderList[i], columnWidth, columnAliment, [
               `${BOLD_OFF}`,
@@ -248,11 +289,37 @@ export const HomeScreen = ({route}: any) => {
             ]);
           }
           Printer.printText(`\n`);
-          Printer.printImageBase64(qrProcessed, {
-            imageWidth: 50,
-            imageHeight: 50,
-          });
-          Printer.printBill(`${CENTER}Thank you\n`, {beep: false});
+          Printer.printText(
+            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
+          );
+          Printer.printText(`${CENTER}Order Notes\n`);
+          Printer.printText(`Please knock on the door when the driver arrives. Thanks!\n`);
+          Printer.printText(
+            `${COMMANDS.HORIZONTAL_LINE.HR2_80MM}`,
+          );
+
+          let totalColumnAliment = [
+            ColumnAliment.LEFT,
+            ColumnAliment.RIGHT,
+          ];
+          let totalColumnWidth = [43 - (7),  7];
+          const total = [
+            ['Subtotal:', '20.94'],
+            ['Discount:', '2.30'],
+            ['Total:', '18.64'],
+          ];
+          for (let i in total) {
+            Printer.printColumnsText(total[i], totalColumnWidth, totalColumnAliment, [
+              `${BOLD_OFF}`,
+              '',
+            ]);
+          }
+          Printer.printText(`${CENTER}Thank you for eating with`);
+          Printer.printText(`${CENTER}Smoking Patty (West Drayton)`);
+          Printer.printText(`${CENTER}67 Station Rd, West Drayton UB7 7LR`);
+          Printer.printText(`${CENTER}+44 1895 742235\n`);
+        
+          Printer.printBill(`${CENTER}Powered by Delivergate\n`, {beep: true});
         } else {
           // optional for android
           // android
