@@ -24,10 +24,25 @@ const ShareableReactImage = () => {
       const uri = await captureRef(viewRef.current, {
         format: 'png',
         quality: 0.7,
+        result: 'base64'
       });
      console.log(uri);
      setUri(uri)
    
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+  console.log(blob, "blob");
+  
       
     } catch (err) {
       console.error(err);

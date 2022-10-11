@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Picker} from '@react-native-picker/picker';
-import * as React from 'react';
+import React, {useEffect, useState, MutableRefObject} from 'react';
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import {
   Dimensions,
   TextInput,
   Image,
+  ScrollView,
 } from 'react-native';
 import {
   BLEPrinter,
@@ -30,6 +31,7 @@ import QRCode from 'react-native-qrcode-svg';
 import {useRef} from 'react';
 import {Buffer} from 'buffer';
 import ShareableReactImage from './createImage';
+import {captureRef} from 'react-native-view-shot';
 
 const printerList: Record<string, any> = {
   ble: BLEPrinter,
@@ -51,11 +53,10 @@ export enum DevicesEnum {
 }
 
 const deviceWidth = Dimensions.get('window').width;
-const splashImage = require('../assets/copy.jpeg')
+const splashImage = require('../assets/copy.jpeg');
 // const EscPosEncoder = require('esc-pos-encoder')
 
 export const HomeScreen = ({route}: any) => {
- 
   const [selectedValue, setSelectedValue] = React.useState<
     keyof typeof printerList
   >(DevicesEnum.net);
@@ -66,6 +67,44 @@ export const HomeScreen = ({route}: any) => {
     {},
   );
   let QrRef = useRef<any>(null);
+
+  const viewRef: MutableRefObject<any> = React.useRef<any>(null);
+  const [showInstagramStory, setShowInstagramStory] = useState(false);
+  const [uri, setUri] = useState('');
+
+  const shareDummyImage = async () => {
+    try {
+      const uri = await captureRef(viewRef.current, {
+        format: 'png',
+        quality: 0.7,
+        result: 'base64',
+      });
+      console.log(uri);
+      setUri(uri);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handlePrint = async () => {
+    try {
+      const Printer = printerList[selectedValue];
+      Printer.printText('<C>sample text</C>', {
+        cut: false,
+      });
+      var base64Icon = uri;
+      //const exampleImageUri = Image.resolveAssetSource(uri).uri
+
+      Printer.printImageBase64(uri, {
+        // imageWidth: 500,
+        // imageHeight: 500,
+      });
+      Printer.printBill('<C>sample text</C>');
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   const [selectedNetPrinter, setSelectedNetPrinter] =
     React.useState<DeviceType>({
       device_name: 'My Net Printer',
@@ -173,21 +212,6 @@ export const HomeScreen = ({route}: any) => {
     await connect();
   };
 
-  const handlePrint = async () => {
-    try {
-      const Printer = printerList[selectedValue];
-      Printer.printText('<C>sample text</C>', {
-        cut: false,
-      });
-      Printer.printImage(
-        'https://sportshub.cbsistatic.com/i/2021/04/09/9df74632-fde2-421e-bc6f-d4bf631bf8e5/one-piece-trafalgar-law-wano-anime-1246430.jpg',
-      );
-      Printer.printBill('<C>sample text</C>');
-    } catch (err) {
-      console.warn(err);
-    }
-  };
-
   const handlePrintBill = async () => {
     let address = '2700 S123 Grand Ave, Los Angeles, CA 90007223, USA.';
     const BOLD_ON = COMMANDS.TEXT_FORMAT.TXT_BOLD_ON;
@@ -236,7 +260,7 @@ export const HomeScreen = ({route}: any) => {
           //   `${BOLD_ON}${REVERSE}`,
           // ]);
           // Printer.printText(`\n${CENTER}${TXT_4SQUARE}STORE DELIVERY\n`);
-         
+
           // let addressColumnAliment = [
           //   ColumnAliment.CENTER,
           // ];
@@ -245,14 +269,14 @@ export const HomeScreen = ({route}: any) => {
           // Printer.printText(
           //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
           // );
-          // Printer.printColumnsText(address, addressColumnWidth, addressColumnAliment);         
+          // Printer.printColumnsText(address, addressColumnWidth, addressColumnAliment);
           // Printer.printText(`${CENTER}$Contact: +44132364340\n`);
           // Printer.printText(`${CENTER}Pin: 547347\n`);
 
           // Printer.printText(
           //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
           // );
-          
+
           // let orderList = [
           //   ['[1x]', 'Smoking patty special', `${POUND}10.97`],
           //   ['', ' | Choice of size', ''],
@@ -322,7 +346,7 @@ export const HomeScreen = ({route}: any) => {
           // Printer.printText(`${CENTER}Smoking Patty (West Drayton)`);
           // Printer.printText(`${CENTER}67 Station Rd, West Drayton UB7 7LR`);
           // Printer.printText(`${CENTER}+44 1895 742235\n`);
-        
+
           Printer.printBill(`${CENTER}Powered by Delivergate\n`, {beep: true});
         } else {
           // optional for android
@@ -350,9 +374,9 @@ export const HomeScreen = ({route}: any) => {
     Printer.printImage(
       'https://media-cdn.tripadvisor.com/media/photo-m/1280/1b/3a/bd/b5/the-food-bill.jpg',
       {
-        imageWidth: 575,
-        // imageHeight: 1000,
-        // paddingX: 100
+        imageWidth: 100,
+        imageHeight: 100,
+        paddingX: 100,
       },
     );
     Printer.printBill('', {beep: false});
@@ -423,76 +447,442 @@ export const HomeScreen = ({route}: any) => {
   );
 
   return (
-    <View style={styles.container}>
-       <ShareableReactImage />
-      {/* Printers option */}
-      <View style={styles.section}>
-        <Text style={styles.title}>Select printer type: </Text>
-        <Picker
-          selectedValue={selectedValue}
-          mode="dropdown"
-          onValueChange={handleChangePrinterType}>
-          {Object.keys(printerList).map((item, index) => (
-            <Picker.Item
-              label={item.toUpperCase()}
-              value={item}
-              key={`printer-type-item-${index}`}
-            />
-          ))}
-        </Picker>
+    <ScrollView style={styles.container}>
+      <View>
+        <View collapsable={false} ref={viewRef} style={{backgroundColor: 'white'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '44.5%',
+            }}>
+            <Text
+              style={{
+                width: '20%',
+                fontSize: 26,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                // paddingBottom: 20,
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              £ Uber
+            </Text>
+            <Text
+              style={{
+                width: 100,
+                fontSize: 26,
+                fontWeight: '700',
+                textAlign: 'center',
+                color: 'black',
+                backgroundColor: 'white',
+              }}>
+              #002cd
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Order placed: 03 Mar 2022 at 6:45pm
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Pickup - 03 Mar 2022 at
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'black',
+              padding: 10,
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'white',
+              }}>
+              7.30pm
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+              paddingTop: 5,
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 30,
+                fontWeight: '400',
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              STORE DELIVERY
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Unit 11, 328 Bath Road, Hounslow, TW47HWfw
+            </Text>
+          </View>
+          <View
+            style={{
+              // alignItems: 'center',
+              flexDirection: 'row',
+              // justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                color: 'black',
+              }}>
+              ****************************************************************
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Kasun.S
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Contact: +44132364340
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Pin: 6574854
+            </Text>
+          </View>
+          <View
+            style={{
+              // alignItems: 'center',
+              flexDirection: 'row',
+              // justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+              paddingTop: 5,
+              paddingBottom: 5,
+            }}>
+            <Text 
+              style={{
+                width: '100%',
+                fontSize: 16,
+                color: 'black',
+              }}>
+              ****************************************************************
+            </Text>
+          </View>
+           {/* First row */}
+          <View
+            style={{
+              // alignItems: 'center',
+              flexDirection: 'row',
+              // justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+            }}>
+            <View style={{width: "10%",}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  textAlign: 'left',
+                  color: 'black',
+                }}>
+                [1x]
+              </Text>
+            </View>
+            <View style={{width: '60%'}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  // textAlign: 'center',
+                  color: 'black',
+                  fontWeight: 'bold'
+                }}>
+                Smoking patty special
+              </Text>
+            </View>
+            <View style={{width: '30%'}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  textAlign: 'right',
+                  color: 'black',
+                }}>
+                £ 10.97
+              </Text>
+            </View>
+          </View> 
+           {/* Second row */}
+          <View
+            style={{
+              // alignItems: 'center',
+              flexDirection: 'row',
+              // justifyContent: 'center',
+              width: '44.5%',
+              backgroundColor: 'white',
+              paddingTop: 5,
+            }}>
+            <View style={{width: "10%"}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  textAlign: 'left',
+                  color: 'black',
+                }}>
+                
+              </Text>
+            </View>
+            <View style={{width: '60%'}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  // textAlign: 'center',
+                  color: 'black',
+                  paddingLeft: 5,
+                  fontWeight: 'bold'
+                }}>
+                I Choice of size
+              </Text>
+            </View>
+            <View style={{width: '30%'}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  textAlign: 'right',
+                  color: 'black',
+                }}>
+               
+              </Text>
+            </View>
+          </View> 
+            {/* Third row */}
+          <View
+            style={{
+              // alignItems: 'center',
+              flexDirection: 'row',
+              // justifyContent: 'center',
+              width: '44.5%',
+              // backgroundColor: 'blue',
+              // paddingTop: 5,
+            }}>
+            <View style={{width: "10%"}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  textAlign: 'left',
+                  color: 'black',
+                }}>
+              </Text>
+            </View>
+            <View style={{width: '60%'}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  paddingLeft: 5,
+                  color: 'black',
+                }}> 
+                [1x] 80z
+              </Text>
+            </View>
+            <View style={{width: '30%'}}>
+              <Text
+                style={{
+                  width: '100%',
+                  fontSize: 16,
+                  textAlign: 'right',
+                  color: 'black',
+                }}>
+               
+              </Text>
+            </View>
+          </View>
+        </View>
+        <TouchableOpacity style={{marginTop: 30}} onPress={shareDummyImage}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              textAlign: 'center',
+              color: 'red',
+            }}>
+            {showInstagramStory ? 'Share Instagram Story' : 'Share'}
+          </Text>
+        </TouchableOpacity>
       </View>
-      {/* Printers List */}
-      <View style={styles.section}>
-        {selectedValue === 'net' ? _renderNet() : _renderOther()}
-        {/* Buttons Connect */}
-        <View
-          style={[
-            styles.buttonContainer,
-            {
-              marginTop: 50,
-            },
-          ]}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleConnectSelectedPrinter}>
-            <AntIcon name={'disconnect'} color={'white'} size={18} />
-            <Text style={styles.text}>Connect</Text>
-          </TouchableOpacity>
+
+      <ScrollView>
+        {/* <ShareableReactImage /> */}
+        {/* Printers option */}
+        <View style={styles.section}>
+          <Text style={styles.title}>Select printer type: </Text>
+          <Picker
+            selectedValue={selectedValue}
+            mode="dropdown"
+            onValueChange={handleChangePrinterType}>
+            {Object.keys(printerList).map((item, index) => (
+              <Picker.Item
+                label={item.toUpperCase()}
+                value={item}
+                key={`printer-type-item-${index}`}
+              />
+            ))}
+          </Picker>
         </View>
-        {/* Button Print sample */}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, {backgroundColor: 'blue'}]}
-            onPress={handlePrint}>
-            <AntIcon name={'printer'} color={'white'} size={18} />
-            <Text style={styles.text}>Print sample</Text>
-          </TouchableOpacity>
+        {/* Printers List */}
+        <View style={styles.section}>
+          {selectedValue === 'net' ? _renderNet() : _renderOther()}
+          {/* Buttons Connect */}
+          <View
+            style={[
+              styles.buttonContainer,
+              {
+                marginTop: 50,
+              },
+            ]}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleConnectSelectedPrinter}>
+              <AntIcon name={'disconnect'} color={'white'} size={18} />
+              <Text style={styles.text}>Connect</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Button Print sample */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: 'blue'}]}
+              onPress={handlePrint}>
+              <AntIcon name={'printer'} color={'white'} size={18} />
+              <Text style={styles.text}>Print sample</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Button Print bill */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: 'blue'}]}
+              onPress={handlePrintBill}>
+              <AntIcon name={'profile'} color={'white'} size={18} />
+              <Text style={styles.text}>Print bill</Text>
+            </TouchableOpacity>
+          </View>
+          {/* Button Print bill With Image */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: 'blue'}]}
+              onPress={handlePrintBillWithImage}>
+              <AntIcon name={'profile'} color={'white'} size={18} />
+              <Text style={styles.text}>Print bill With Image</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.qr}>
+            <QRCode value="hey" getRef={(el: any) => (QrRef = el)} />
+          </View>
         </View>
-        {/* Button Print bill */}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, {backgroundColor: 'blue'}]}
-            onPress={handlePrintBill}>
-            <AntIcon name={'profile'} color={'white'} size={18} />
-            <Text style={styles.text}>Print bill</Text>
-          </TouchableOpacity>
-        </View>
-        {/* Button Print bill With Image */}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, {backgroundColor: 'blue'}]}
-            onPress={handlePrintBillWithImage}>
-            <AntIcon name={'profile'} color={'white'} size={18} />
-            <Text style={styles.text}>Print bill With Image</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.qr}>
-          <QRCode value="hey" getRef={(el: any) => (QrRef = el)} />
-        </View>
-      </View>
-     
-      {/* <Loading loading={loading} /> */}
-    </View>
+
+        {/* <Loading loading={loading} /> */}
+      </ScrollView>
+    </ScrollView>
   );
 };
 
@@ -534,5 +924,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
+  },
+  dummy: {
+    width: 0,
+    height: 0,
+    borderTopWidth: 120,
+    borderTopColor: 'yellow',
+    borderLeftColor: 'black',
+    borderLeftWidth: 120,
+    borderRightColor: 'black',
+    borderRightWidth: 120,
+    borderBottomColor: 'yellow',
+    borderBottomWidth: 120,
+    borderTopLeftRadius: 120,
+    borderTopRightRadius: 120,
+    borderBottomRightRadius: 120,
+    borderBottomLeftRadius: 120,
   },
 });
