@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
+  Image,
 } from 'react-native';
 import {
   BLEPrinter,
@@ -28,6 +29,7 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 import QRCode from 'react-native-qrcode-svg';
 import {useRef} from 'react';
 import {Buffer} from 'buffer';
+import ShareableReactImage from './createImage';
 
 const printerList: Record<string, any> = {
   ble: BLEPrinter,
@@ -49,9 +51,11 @@ export enum DevicesEnum {
 }
 
 const deviceWidth = Dimensions.get('window').width;
+const splashImage = require('../assets/copy.jpeg')
 // const EscPosEncoder = require('esc-pos-encoder')
 
 export const HomeScreen = ({route}: any) => {
+ 
   const [selectedValue, setSelectedValue] = React.useState<
     keyof typeof printerList
   >(DevicesEnum.net);
@@ -205,119 +209,119 @@ export const HomeScreen = ({route}: any) => {
         // Can print android and ios with the same type or with encoder for android
         if (Platform.OS === 'android' || Platform.OS === 'ios') {
           const Printer: typeof NetPrinter = printerList[selectedValue];
-          // Printer.printImage(
-          //   `https://sportshub.cbsistatic.com/i/2021/04/09/9df74632-fde2-421e-bc6f-d4bf631bf8e5/one-piece-trafalgar-law-wano-anime-1246430.jpg`,
-          //   {
-          //     imageWidth: 300,
-          //     imageHeight: 300,
-          //   },
-          // );
-          let headerColumnAliment = [
-            ColumnAliment.LEFT,
-            ColumnAliment.RIGHT,
-          ];
-          let headerColumnWidth = [23 - (7),  7];
-          const headers = ['Uber', '#002cd'];
-          Printer.printColumnsText(headers, headerColumnWidth, headerColumnAliment, [
-            `${BOLD_ON}${TXT_4SQUARE}`,`${TXT_4SQUARE}`,
-          ]);
-          Printer.printText(`${CENTER}Order placed: 03 Mar 2022 at 6:45pm${BOLD_OFF}`);
-          Printer.printText(`${CENTER}Pickup - 03 Mar 2022 at ${BOLD_OFF}\n`);
-          let reverseColumnAliment = [
-            ColumnAliment.CENTER,
-          ];
-          let reverseColumnWidth = [46];
-          const reverse = ['8.30pm'];
-          Printer.printColumnsText(reverse, reverseColumnWidth, reverseColumnAliment, [
-            `${BOLD_ON}${REVERSE}`,
-          ]);
-          Printer.printText(`\n${CENTER}${TXT_4SQUARE}STORE DELIVERY\n`);
-         
-          let addressColumnAliment = [
-            ColumnAliment.CENTER,
-          ];
-          let addressColumnWidth = [46];
-          const address = ['Unit 11, 328 Bath Road, Hounslow, TW4 7HW\n'];
-          Printer.printText(
-            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
+          Printer.printImage(
+            `file:///data/user/0/com.printertypescript/cache/ReactNative-snapshot-image7479182449821973472.png`,
+            {
+              // imageWidth: 500,
+              // imageHeight: 300,
+            },
           );
-          Printer.printColumnsText(address, addressColumnWidth, addressColumnAliment);         
-          Printer.printText(`${CENTER}$Contact: +44132364340\n`);
-          Printer.printText(`${CENTER}Pin: 547347\n`);
-
-          Printer.printText(
-            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
-          );
-          
-          let orderList = [
-            ['[1x]', 'Smoking patty special', `${POUND}10.97`],
-            ['', ' | Choice of size', ''],
-            ['', ' [1x] 80z', ''],
-            ['', ' | Choice of Add-on', ''],
-            ['', '[1x] Add premium potato chips, agarlic mayo dip & choice of drink', ''],
-            ['', ' | Choice of Drinks', ''],
-            ['', ' [1x] Fanta', ''],
-            ['[1x]', 'Texas Ranch', '9.97'],
-            ['', ' | Choice of size', ''],
-            ['', ' [1x] 60z', ''],
-            ['', ' | Choice of Add-on', ''],
-            ['', '[1x] Add premium potato chips, agarlic mayo dip & choice of drink', ''],
-            ['', ' | Choice of Drinks', ''],
-            ['', ' [1x] Pepsi', ''],
-          ];
-
-          let columnAliment = [
-            ColumnAliment.LEFT,
-            ColumnAliment.LEFT,
-            ColumnAliment.RIGHT,
-          ];
-          let columnWidth = [4, 46 - (4 + 12), 12];
-          // const header = ['Product list', 'Qty', 'Price'];
-          // Printer.printColumnsText(header, columnWidth, columnAliment, [
-          //   `${BOLD_ON}`,
-          //   '',
-          //   '',
+          // let headerColumnAliment = [
+          //   ColumnAliment.LEFT,
+          //   ColumnAliment.RIGHT,
+          // ];
+          // let headerColumnWidth = [23 - (7),  7];
+          // const headers = ['Uber', '#002cd'];
+          // Printer.printColumnsText(headers, headerColumnWidth, headerColumnAliment, [
+          //   `${BOLD_ON}${TXT_4SQUARE}`,`${TXT_4SQUARE}`,
           // ]);
+          // Printer.printText(`${CENTER}Order placed: 03 Mar 2022 at 6:45pm${BOLD_OFF}`);
+          // Printer.printText(`${CENTER}Pickup - 03 Mar 2022 at ${BOLD_OFF}\n`);
+          // let reverseColumnAliment = [
+          //   ColumnAliment.CENTER,
+          // ];
+          // let reverseColumnWidth = [46];
+          // const reverse = ['8.30pm'];
+          // Printer.printColumnsText(reverse, reverseColumnWidth, reverseColumnAliment, [
+          //   `${BOLD_ON}${REVERSE}`,
+          // ]);
+          // Printer.printText(`\n${CENTER}${TXT_4SQUARE}STORE DELIVERY\n`);
+         
+          // let addressColumnAliment = [
+          //   ColumnAliment.CENTER,
+          // ];
+          // let addressColumnWidth = [46];
+          // const address = ['Unit 11, 328 Bath Road, Hounslow, TW4 7HW\n'];
           // Printer.printText(
-          //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR3_80MM}${CENTER}`,
+          //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
           // );
-          for (let i in orderList) {
-            Printer.printColumnsText(orderList[i], columnWidth, columnAliment, [
-              `${BOLD_OFF}`,
-              '',
-              '',
-            ]);
-          }
-          Printer.printText(`\n`);
-          Printer.printText(
-            `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
-          );
-          Printer.printText(`${CENTER}Order Notes\n`);
-          Printer.printText(`Please knock on the door when the driver arrives. Thanks!\n`);
-          Printer.printText(
-            `${COMMANDS.HORIZONTAL_LINE.HR2_80MM}`,
-          );
+          // Printer.printColumnsText(address, addressColumnWidth, addressColumnAliment);         
+          // Printer.printText(`${CENTER}$Contact: +44132364340\n`);
+          // Printer.printText(`${CENTER}Pin: 547347\n`);
 
-          let totalColumnAliment = [
-            ColumnAliment.LEFT,
-            ColumnAliment.RIGHT,
-          ];
-          let totalColumnWidth = [43 - (7),  7];
-          const total = [
-            ['Subtotal:', '20.94'],
-            ['Discount:', '2.30'],
-            ['Total:', '18.64'],
-          ];
-          for (let i in total) {
-            Printer.printColumnsText(total[i], totalColumnWidth, totalColumnAliment, [
-              `${BOLD_OFF}`,
-              '',
-            ]);
-          }
-          Printer.printText(`${CENTER}Thank you for eating with`);
-          Printer.printText(`${CENTER}Smoking Patty (West Drayton)`);
-          Printer.printText(`${CENTER}67 Station Rd, West Drayton UB7 7LR`);
-          Printer.printText(`${CENTER}+44 1895 742235\n`);
+          // Printer.printText(
+          //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
+          // );
+          
+          // let orderList = [
+          //   ['[1x]', 'Smoking patty special', `${POUND}10.97`],
+          //   ['', ' | Choice of size', ''],
+          //   ['', ' [1x] 80z', ''],
+          //   ['', ' | Choice of Add-on', ''],
+          //   ['', '[1x] Add premium potato chips, agarlic mayo dip & choice of drink', ''],
+          //   ['', ' | Choice of Drinks', ''],
+          //   ['', ' [1x] Fanta', ''],
+          //   ['[1x]', 'Texas Ranch', '9.97'],
+          //   ['', ' | Choice of size', ''],
+          //   ['', ' [1x] 60z', ''],
+          //   ['', ' | Choice of Add-on', ''],
+          //   ['', '[1x] Add premium potato chips, agarlic mayo dip & choice of drink', ''],
+          //   ['', ' | Choice of Drinks', ''],
+          //   ['', ' [1x] Pepsi', ''],
+          // ];
+
+          // let columnAliment = [
+          //   ColumnAliment.LEFT,
+          //   ColumnAliment.LEFT,
+          //   ColumnAliment.RIGHT,
+          // ];
+          // let columnWidth = [4, 46 - (4 + 12), 12];
+          // // const header = ['Product list', 'Qty', 'Price'];
+          // // Printer.printColumnsText(header, columnWidth, columnAliment, [
+          // //   `${BOLD_ON}`,
+          // //   '',
+          // //   '',
+          // // ]);
+          // // Printer.printText(
+          // //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR3_80MM}${CENTER}`,
+          // // );
+          // for (let i in orderList) {
+          //   Printer.printColumnsText(orderList[i], columnWidth, columnAliment, [
+          //     `${BOLD_OFF}`,
+          //     '',
+          //     '',
+          //   ]);
+          // }
+          // Printer.printText(`\n`);
+          // Printer.printText(
+          //   `${CENTER}${COMMANDS.HORIZONTAL_LINE.HR2_80MM}${CENTER}`,
+          // );
+          // Printer.printText(`${CENTER}Order Notes\n`);
+          // Printer.printText(`Please knock on the door when the driver arrives. Thanks!\n`);
+          // Printer.printText(
+          //   `${COMMANDS.HORIZONTAL_LINE.HR2_80MM}`,
+          // );
+
+          // let totalColumnAliment = [
+          //   ColumnAliment.LEFT,
+          //   ColumnAliment.RIGHT,
+          // ];
+          // let totalColumnWidth = [43 - (7),  7];
+          // const total = [
+          //   ['Subtotal:', '20.94'],
+          //   ['Discount:', '2.30'],
+          //   ['Total:', '18.64'],
+          // ];
+          // for (let i in total) {
+          //   Printer.printColumnsText(total[i], totalColumnWidth, totalColumnAliment, [
+          //     `${BOLD_OFF}`,
+          //     '',
+          //   ]);
+          // }
+          // Printer.printText(`${CENTER}Thank you for eating with`);
+          // Printer.printText(`${CENTER}Smoking Patty (West Drayton)`);
+          // Printer.printText(`${CENTER}67 Station Rd, West Drayton UB7 7LR`);
+          // Printer.printText(`${CENTER}+44 1895 742235\n`);
         
           Printer.printBill(`${CENTER}Powered by Delivergate\n`, {beep: true});
         } else {
@@ -420,6 +424,7 @@ export const HomeScreen = ({route}: any) => {
 
   return (
     <View style={styles.container}>
+       <ShareableReactImage />
       {/* Printers option */}
       <View style={styles.section}>
         <Text style={styles.title}>Select printer type: </Text>
@@ -485,6 +490,7 @@ export const HomeScreen = ({route}: any) => {
           <QRCode value="hey" getRef={(el: any) => (QrRef = el)} />
         </View>
       </View>
+     
       {/* <Loading loading={loading} /> */}
     </View>
   );
