@@ -68,6 +68,158 @@ export const HomeScreen = ({route}: any) => {
   );
   let QrRef = useRef<any>(null);
 
+  const data = {
+    "id": "Da-02-111022-000685-qRHO",
+    "outlet": "Dehiwala",
+    "franchise": "Pizza Hut WP",
+    "display_order_id": "QRHO",
+    "platform": "Webshop",
+    "delivery_platform_name": "Dehiwala webshop",
+    "delivery_platform_logo": "https://delivergate-logos.s3.eu-west-2.amazonaws.com/webshop.png",
+    "price": "800.00",
+    "status": "Completed",
+    "items": [
+        {
+            "id": 467,
+            "order_id": 411,
+            "item_id": "1",
+            "quantity": 1,
+            "price_per_item": 60000,
+            "total": 60000,
+            "original_price": 61000,
+            "is_sale": 1,
+            "discount_amount": 1000,
+            "status": "COMPLETED",
+            "created_at": "2022-10-11 12:27:38",
+            "updated_at": "2022-10-11 14:00:04",
+            "item_name": "Devilled Chicken",
+            "category_name": null,
+            "modifiers": [],
+            "tax": 0,
+            "note": null,
+            "display_price": "600.00"
+        },
+        {
+            "id": 468,
+            "order_id": 411,
+            "item_id": "4",
+            "quantity": 2,
+            "price_per_item": 10000,
+            "total": 20000,
+            "original_price": 10000,
+            "is_sale": 0,
+            "discount_amount": 0,
+            "status": "COMPLETED",
+            "created_at": "2022-10-11 12:27:38",
+            "updated_at": "2022-10-11 14:00:04",
+            "item_name": "Black Chicken",
+            "category_name": null,
+            "modifiers": [],
+            "tax": 0,
+            "note": null,
+            "display_price": "100.00"
+        }
+    ],
+    "platform_logo": "https://delivergate-logos.s3.eu-west-2.amazonaws.com/webshop.png",
+    "delivery_date_time": "11/10/2022 06:37 pm",
+    "delivery_time": "06:37 pm",
+    "delivery_date": "2022-10-11",
+    "created_date_time": "11/10/2022 05:57 pm",
+    "created_time": "05:57 pm",
+    "created_date": "2022-10-11",
+    "customer_name": "rushantha chathuranga",
+    "note": null,
+    "delivery_type": "Delivery",
+    "order_id": 411,
+    "sub_total": "800.00",
+    "total_fee": "17.99",
+    "total_amount": "797.99",
+    "total_tax": "0.00",
+    "shipping_method": "DELIVERY",
+    "shipping_total": "0.00",
+    "shipping_tax": null,
+    "discount": "20.00",
+    "cash_due": "0.00",
+    "surcharge": "0.00",
+    "contact_access_code": null,
+    "delivergate_customer": {
+        "id": 38,
+        "source": null,
+        "order_id": null,
+        "first_name": "rushantha",
+        "last_name": "chathuranga",
+        "address_1": null,
+        "address_2": null,
+        "email": "red.test506+100@gmail.com",
+        "phone": "+94715498625",
+        "country_code": "+94",
+        "city": null,
+        "state": null,
+        "postcode": null,
+        "country": null,
+        "remote_id": null,
+        "type": "WEBSHOP",
+        "created_at": "2022-08-04 09:19:29",
+        "updated_at": "2022-10-11 10:42:17",
+        "latitude": null,
+        "longitude": null,
+        "reset_token": null,
+        "stripe_id": null,
+        "otp": null,
+        "status": 1,
+        "password_reset_code": null,
+        "password_reset_code_status": 0,
+        "contact_access_code": null,
+        "address_type": "STREET_ADDRESS",
+        "notes": null,
+        "expo_token": null,
+        "deleted_at": null,
+        "address": "974613, Galle Railway Station, Galle, Sri Lanka, 80000"
+    },
+    "payment_method": "CARD",
+    "deliveries": [],
+    "arrive_in": 0,
+    "shipping_details": {
+        "id": 667,
+        "order_tmp_id": 685,
+        "order_id": 411,
+        "type": "RECEIVER",
+        "first_name": "rushantha",
+        "last_name": "chathuranga",
+        "email": "red.test506+100@gmail.com",
+        "phone": "715498625",
+        "country_code": "+94",
+        "address_line_1": "974613",
+        "address_line_2": "Galle Railway Station, Galle, Sri Lanka, 80000",
+        "city": null,
+        "state": null,
+        "postcode": null,
+        "country": null,
+        "latitude": "6.0332729",
+        "longitude": "80.2143104",
+        "created_at": "2022-10-11 12:27:35",
+        "updated_at": "2022-10-11 12:27:38"
+    },
+    "shopFee": [
+        {
+            "shop_fee_id": 4,
+            "name": "Service charge",
+            "amount": "10.99"
+        },
+        {
+            "shop_fee_id": 5,
+            "name": "Bag Fee",
+            "amount": "5.00"
+        },
+        {
+            "shop_fee_id": 6,
+            "name": "Bill charge",
+            "amount": "2.00"
+        }
+    ],
+    "buttons": []
+}
+
   const viewRef: MutableRefObject<any> = React.useRef<any>(null);
   const [showInstagramStory, setShowInstagramStory] = useState(false);
   const [uri, setUri] = useState('');
@@ -456,11 +608,11 @@ export const HomeScreen = ({route}: any) => {
               justifyContent: 'space-between',
               alignItems: 'center',
               backgroundColor: 'white',
-              width: '44.5%',
+              width: '43%',
             }}>
             <Text
               style={{
-                width: '20%',
+                width: '23%',
                 fontSize: 26,
                 fontWeight: 'bold',
                 textAlign: 'center',
@@ -487,7 +639,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <Text
@@ -505,7 +657,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <Text
@@ -523,7 +675,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'black',
               padding: 10,
             }}>
@@ -542,9 +694,10 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
-              paddingTop: 5,
+              paddingTop: 10,
+              paddingBottom: 10
             }}>
             <Text
               style={{
@@ -562,7 +715,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <Text
@@ -577,19 +730,16 @@ export const HomeScreen = ({route}: any) => {
           </View>
           <View
             style={{
-              // alignItems: 'center',
-              flexDirection: 'row',
-              // justifyContent: 'center',
-              width: '44.5%',
-              backgroundColor: 'white',
+              width: '43%',
             }}>
-            <Text
+            <Text 
               style={{
                 width: '100%',
                 fontSize: 16,
                 color: 'black',
+                textAlign: 'center'
               }}>
-              ****************************************************************
+               *************************************************************
             </Text>
           </View>
           <View
@@ -597,7 +747,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <Text
@@ -615,7 +765,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <Text
@@ -633,7 +783,7 @@ export const HomeScreen = ({route}: any) => {
               alignItems: 'center',
               flexDirection: 'row',
               justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <Text
@@ -648,21 +798,17 @@ export const HomeScreen = ({route}: any) => {
           </View>
           <View
             style={{
-              // alignItems: 'center',
-              flexDirection: 'row',
-              // justifyContent: 'center',
-              width: '44.5%',
-              backgroundColor: 'white',
-              paddingTop: 5,
-              paddingBottom: 5,
+              width: '43%',
+              paddingTop: 5
             }}>
             <Text 
               style={{
                 width: '100%',
                 fontSize: 16,
                 color: 'black',
+                textAlign: 'center'
               }}>
-              ****************************************************************
+               *************************************************************
             </Text>
           </View>
            {/* First row */}
@@ -671,7 +817,7 @@ export const HomeScreen = ({route}: any) => {
               // alignItems: 'center',
               flexDirection: 'row',
               // justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
             }}>
             <View style={{width: "10%",}}>
@@ -715,7 +861,7 @@ export const HomeScreen = ({route}: any) => {
               // alignItems: 'center',
               flexDirection: 'row',
               // justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               backgroundColor: 'white',
               paddingTop: 5,
             }}>
@@ -761,7 +907,7 @@ export const HomeScreen = ({route}: any) => {
               // alignItems: 'center',
               flexDirection: 'row',
               // justifyContent: 'center',
-              width: '44.5%',
+              width: '43%',
               // backgroundColor: 'blue',
               // paddingTop: 5,
             }}>
