@@ -275,17 +275,19 @@ export const HomeScreen = ({route}: any) => {
   const handlePrint = async () => {
     try {
       const Printer = printerList[selectedValue];
-      Printer.printText('<C>sample text</C>', {
-        cut: false,
-      });
+      // Printer.printText('<C>sample text</C>', {
+      //   cut: false,
+      // });
       var base64Icon = uri;
       //const exampleImageUri = Image.resolveAssetSource(uri).uri
 
       Printer.printImageBase64(uri, {
+        printerWidthType: '80mm',
+        paddingX: 10,
         // imageWidth: 500,
         // imageHeight: 500,
       });
-      Printer.printBill('<C>sample text</C>');
+      Printer.printBill('<C>Powered by Delivergate </C>');
     } catch (err) {
       console.warn(err);
     }
@@ -661,7 +663,7 @@ export const HomeScreen = ({route}: any) => {
             </Text>
             <Text
               style={{
-                width: "32%",
+                width: '32%',
                 fontSize: 25,
                 fontWeight: '700',
                 textAlign: 'right',
@@ -678,6 +680,7 @@ export const HomeScreen = ({route}: any) => {
               justifyContent: 'center',
               width: '43%',
               backgroundColor: 'white',
+              paddingTop: 10
             }}>
             <Text
               style={{
@@ -696,6 +699,7 @@ export const HomeScreen = ({route}: any) => {
               justifyContent: 'center',
               width: '43%',
               backgroundColor: 'white',
+              paddingBottom: 10
             }}>
             <Text
               style={{
@@ -759,7 +763,7 @@ export const HomeScreen = ({route}: any) => {
               <Text
                 style={{
                   width: '100%',
-                  fontSize: 30,
+                  fontSize: 25,
                   fontWeight: '400',
                   textAlign: 'center',
                   color: 'white',
@@ -886,7 +890,7 @@ export const HomeScreen = ({route}: any) => {
                       flexDirection: 'row',
                       width: '43%',
                       backgroundColor: 'white',
-                      paddingTop: 5
+                      paddingTop: 5,
                     }}>
                     <View style={{width: '10%'}}>
                       <Text
@@ -1026,6 +1030,325 @@ export const HomeScreen = ({route}: any) => {
               );
             }}
           />
+          <View
+            style={{
+              width: '43%',
+              paddingTop: 5,
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                color: 'black',
+                textAlign: 'center',
+              }}>
+              *************************************************************
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '43%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                fontWeight: 'bold',
+                color: 'black',
+              }}>
+              Order Notes
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '43%',
+              backgroundColor: 'white',
+              paddingTop: 10
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                fontWeight: 'normal',
+                color: 'black',
+              }}>
+              Please knock on the door when the driver arrives.Thanks!
+            </Text>
+          </View>
+          <View
+            style={{
+              width: '43%',
+              paddingTop: 5,
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                color: 'black',
+                textAlign: 'center',
+              }}>
+              *************************************************************
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+            }}>
+            <Text
+              style={{
+                width: '65%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'left',
+                // paddingBottom: 20,
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              Subtotal :
+            </Text>
+            <Text
+              style={{
+                width: '32%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'right',
+                color: 'black',
+                backgroundColor: 'white',
+              }}>
+              £ {data.sub_total}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+            }}>
+            <Text
+              style={{
+                width: '65%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'left',
+                // paddingBottom: 20,
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              Discount: :
+            </Text>
+            <Text
+              style={{
+                width: '32%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'right',
+                color: 'black',
+                backgroundColor: 'white',
+              }}>
+              £ {data.discount}
+            </Text>
+          </View>
+          <FlatList
+            data={data.shopFee}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item: any) => item.id}
+            renderItem={({item, index}) => {
+              return (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    width: '43%',
+                  }}>
+                  <Text
+                    style={{
+                      width: '65%',
+                      fontSize: 16,
+                      fontWeight: 'normal',
+                      textAlign: 'left',
+                      // paddingBottom: 20,
+                      backgroundColor: 'white',
+                      color: 'black',
+                    }}>
+                    {item.name}
+                  </Text>
+                  <Text
+                    style={{
+                      width: '32%',
+                      fontSize: 16,
+                      fontWeight: 'normal',
+                      textAlign: 'right',
+                      color: 'black',
+                      backgroundColor: 'white',
+                    }}>
+                    £ {item.amount}
+                  </Text>
+                </View>
+              );
+            }}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+            }}>
+            <Text
+              style={{
+                width: '65%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'left',
+                // paddingBottom: 20,
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              {data.platform} charges
+            </Text>
+            <Text
+              style={{
+                width: '32%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'right',
+                color: 'black',
+                backgroundColor: 'white',
+              }}>
+              £ {data.total_fee}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+            }}>
+            <Text
+              style={{
+                width: '65%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'left',
+                // paddingBottom: 20,
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              Total
+            </Text>
+            <Text
+              style={{
+                width: '32%',
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'right',
+                color: 'black',
+                backgroundColor: 'white',
+              }}>
+              £ {data.total_amount}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+              paddingTop: 15
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'center',
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              Thank you for ordering with
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+              paddingTop: 5
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              Smokin Patty (West Drayton)
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+              paddingTop: 5
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'center',
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              67 Station Rd, West Drayton UB7 7LR.
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '43%',
+              paddingTop: 5
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'normal',
+                textAlign: 'center',
+                backgroundColor: 'white',
+                color: 'black',
+              }}>
+              +44 1895 742235
+            </Text>
+          </View>
         </View>
         <TouchableOpacity style={{marginTop: 30}} onPress={shareDummyImage}>
           <Text
