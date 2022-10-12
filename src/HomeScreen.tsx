@@ -12,6 +12,7 @@ import {
   TextInput,
   Image,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {
   BLEPrinter,
@@ -69,156 +70,189 @@ export const HomeScreen = ({route}: any) => {
   let QrRef = useRef<any>(null);
 
   const data = {
-    "id": "Da-02-111022-000685-qRHO",
-    "outlet": "Dehiwala",
-    "franchise": "Pizza Hut WP",
-    "display_order_id": "QRHO",
-    "platform": "Webshop",
-    "delivery_platform_name": "Dehiwala webshop",
-    "delivery_platform_logo": "https://delivergate-logos.s3.eu-west-2.amazonaws.com/webshop.png",
-    "price": "800.00",
-    "status": "Completed",
-    "items": [
-        {
-            "id": 467,
-            "order_id": 411,
-            "item_id": "1",
-            "quantity": 1,
-            "price_per_item": 60000,
-            "total": 60000,
-            "original_price": 61000,
-            "is_sale": 1,
-            "discount_amount": 1000,
-            "status": "COMPLETED",
-            "created_at": "2022-10-11 12:27:38",
-            "updated_at": "2022-10-11 14:00:04",
-            "item_name": "Devilled Chicken",
-            "category_name": null,
-            "modifiers": [],
-            "tax": 0,
-            "note": null,
-            "display_price": "600.00"
-        },
-        {
-            "id": 468,
-            "order_id": 411,
-            "item_id": "4",
-            "quantity": 2,
-            "price_per_item": 10000,
-            "total": 20000,
-            "original_price": 10000,
-            "is_sale": 0,
-            "discount_amount": 0,
-            "status": "COMPLETED",
-            "created_at": "2022-10-11 12:27:38",
-            "updated_at": "2022-10-11 14:00:04",
-            "item_name": "Black Chicken",
-            "category_name": null,
-            "modifiers": [],
-            "tax": 0,
-            "note": null,
-            "display_price": "100.00"
-        }
+    id: 'Da-02-111022-000685-qRHO',
+    outlet: 'Dehiwala',
+    franchise: 'Pizza Hut WP',
+    display_order_id: 'QRHO',
+    platform: 'Webshop',
+    delivery_platform_name: 'Dehiwala webshop',
+    delivery_platform_logo:
+      'https://delivergate-logos.s3.eu-west-2.amazonaws.com/webshop.png',
+    price: '800.00',
+    status: 'Completed',
+    items: [
+      {
+        id: 467,
+        order_id: 411,
+        item_id: '1',
+        quantity: 1,
+        price_per_item: 60000,
+        total: 60000,
+        original_price: 61000,
+        is_sale: 1,
+        discount_amount: 1000,
+        status: 'COMPLETED',
+        created_at: '2022-10-11 12:27:38',
+        updated_at: '2022-10-11 14:00:04',
+        item_name: 'Devilled Chicken',
+        category_name: null,
+        modifiers: [
+          {
+            item_id: '1',
+            title: 'Sauce',
+            selected_item: [
+              {
+                item_id: '8',
+                title: 'Tomato Sauce',
+                quantity: '1.00',
+                price_per_item: '10000.00',
+                display_price: '100',
+                modifiers: [],
+              },
+            ],
+            removed_item: [],
+          },
+          {
+            item_id: '3',
+            title: 'cool',
+            selected_item: [
+              {
+                item_id: '8',
+                title: 'Tomato Sauce',
+                quantity: '1.00',
+                price_per_item: '5000.00',
+                display_price: '50',
+                modifiers: [],
+              },
+            ],
+            removed_item: [],
+          },
+        ],
+        tax: 0,
+        note: null,
+        display_price: '600.00',
+      },
+      {
+        id: 468,
+        order_id: 411,
+        item_id: '4',
+        quantity: 2,
+        price_per_item: 10000,
+        total: 20000,
+        original_price: 10000,
+        is_sale: 0,
+        discount_amount: 0,
+        status: 'COMPLETED',
+        created_at: '2022-10-11 12:27:38',
+        updated_at: '2022-10-11 14:00:04',
+        item_name: 'Black Chicken',
+        category_name: null,
+        modifiers: [],
+        tax: 0,
+        note: null,
+        display_price: '100.00',
+      },
     ],
-    "platform_logo": "https://delivergate-logos.s3.eu-west-2.amazonaws.com/webshop.png",
-    "delivery_date_time": "11/10/2022 06:37 pm",
-    "delivery_time": "06:37 pm",
-    "delivery_date": "2022-10-11",
-    "created_date_time": "11/10/2022 05:57 pm",
-    "created_time": "05:57 pm",
-    "created_date": "2022-10-11",
-    "customer_name": "rushantha chathuranga",
-    "note": null,
-    "delivery_type": "Delivery",
-    "order_id": 411,
-    "sub_total": "800.00",
-    "total_fee": "17.99",
-    "total_amount": "797.99",
-    "total_tax": "0.00",
-    "shipping_method": "DELIVERY",
-    "shipping_total": "0.00",
-    "shipping_tax": null,
-    "discount": "20.00",
-    "cash_due": "0.00",
-    "surcharge": "0.00",
-    "contact_access_code": null,
-    "delivergate_customer": {
-        "id": 38,
-        "source": null,
-        "order_id": null,
-        "first_name": "rushantha",
-        "last_name": "chathuranga",
-        "address_1": null,
-        "address_2": null,
-        "email": "red.test506+100@gmail.com",
-        "phone": "+94715498625",
-        "country_code": "+94",
-        "city": null,
-        "state": null,
-        "postcode": null,
-        "country": null,
-        "remote_id": null,
-        "type": "WEBSHOP",
-        "created_at": "2022-08-04 09:19:29",
-        "updated_at": "2022-10-11 10:42:17",
-        "latitude": null,
-        "longitude": null,
-        "reset_token": null,
-        "stripe_id": null,
-        "otp": null,
-        "status": 1,
-        "password_reset_code": null,
-        "password_reset_code_status": 0,
-        "contact_access_code": null,
-        "address_type": "STREET_ADDRESS",
-        "notes": null,
-        "expo_token": null,
-        "deleted_at": null,
-        "address": "974613, Galle Railway Station, Galle, Sri Lanka, 80000"
+    platform_logo:
+      'https://delivergate-logos.s3.eu-west-2.amazonaws.com/webshop.png',
+    delivery_date_time: '11/10/2022 06:37 pm',
+    delivery_time: '06:37 pm',
+    delivery_date: '2022-10-11',
+    created_date_time: '11/10/2022 05:57 pm',
+    created_time: '05:57 pm',
+    created_date: '2022-10-11',
+    customer_name: 'rushantha chathuranga',
+    note: null,
+    delivery_type: 'Delivery',
+    order_id: 411,
+    sub_total: '800.00',
+    total_fee: '17.99',
+    total_amount: '797.99',
+    total_tax: '0.00',
+    shipping_method: 'DELIVERY',
+    shipping_total: '0.00',
+    shipping_tax: null,
+    discount: '20.00',
+    cash_due: '0.00',
+    surcharge: '0.00',
+    contact_access_code: null,
+    delivergate_customer: {
+      id: 38,
+      source: null,
+      order_id: null,
+      first_name: 'rushantha',
+      last_name: 'chathuranga',
+      address_1: null,
+      address_2: null,
+      email: 'red.test506+100@gmail.com',
+      phone: '+94715498625',
+      country_code: '+94',
+      city: null,
+      state: null,
+      postcode: null,
+      country: null,
+      remote_id: null,
+      type: 'WEBSHOP',
+      created_at: '2022-08-04 09:19:29',
+      updated_at: '2022-10-11 10:42:17',
+      latitude: null,
+      longitude: null,
+      reset_token: null,
+      stripe_id: null,
+      otp: null,
+      status: 1,
+      password_reset_code: null,
+      password_reset_code_status: 0,
+      contact_access_code: '927484',
+      address_type: 'STREET_ADDRESS',
+      notes: null,
+      expo_token: null,
+      deleted_at: null,
+      address: '974613, Galle Railway Station, Galle, Sri Lanka, 80000',
     },
-    "payment_method": "CARD",
-    "deliveries": [],
-    "arrive_in": 0,
-    "shipping_details": {
-        "id": 667,
-        "order_tmp_id": 685,
-        "order_id": 411,
-        "type": "RECEIVER",
-        "first_name": "rushantha",
-        "last_name": "chathuranga",
-        "email": "red.test506+100@gmail.com",
-        "phone": "715498625",
-        "country_code": "+94",
-        "address_line_1": "974613",
-        "address_line_2": "Galle Railway Station, Galle, Sri Lanka, 80000",
-        "city": null,
-        "state": null,
-        "postcode": null,
-        "country": null,
-        "latitude": "6.0332729",
-        "longitude": "80.2143104",
-        "created_at": "2022-10-11 12:27:35",
-        "updated_at": "2022-10-11 12:27:38"
+    payment_method: 'CARD',
+    deliveries: [],
+    arrive_in: 0,
+    shipping_details: {
+      id: 667,
+      order_tmp_id: 685,
+      order_id: 411,
+      type: 'RECEIVER',
+      first_name: 'rushantha',
+      last_name: 'chathuranga',
+      email: 'red.test506+100@gmail.com',
+      phone: '715498625',
+      country_code: '+94',
+      address_line_1: '974613',
+      address_line_2: 'Galle Railway Station, Galle, Sri Lanka, 80000',
+      city: null,
+      state: null,
+      postcode: null,
+      country: null,
+      latitude: '6.0332729',
+      longitude: '80.2143104',
+      created_at: '2022-10-11 12:27:35',
+      updated_at: '2022-10-11 12:27:38',
     },
-    "shopFee": [
-        {
-            "shop_fee_id": 4,
-            "name": "Service charge",
-            "amount": "10.99"
-        },
-        {
-            "shop_fee_id": 5,
-            "name": "Bag Fee",
-            "amount": "5.00"
-        },
-        {
-            "shop_fee_id": 6,
-            "name": "Bill charge",
-            "amount": "2.00"
-        }
+    shopFee: [
+      {
+        shop_fee_id: 4,
+        name: 'Service charge',
+        amount: '10.99',
+      },
+      {
+        shop_fee_id: 5,
+        name: 'Bag Fee',
+        amount: '5.00',
+      },
+      {
+        shop_fee_id: 6,
+        name: 'Bill charge',
+        amount: '2.00',
+      },
     ],
-    "buttons": []
-}
+    buttons: [],
+  };
 
   const viewRef: MutableRefObject<any> = React.useRef<any>(null);
   const [showInstagramStory, setShowInstagramStory] = useState(false);
@@ -601,7 +635,10 @@ export const HomeScreen = ({route}: any) => {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <View collapsable={false} ref={viewRef} style={{backgroundColor: 'white'}}>
+        <View
+          collapsable={false}
+          ref={viewRef}
+          style={{backgroundColor: 'white'}}>
           <View
             style={{
               flexDirection: 'row',
@@ -612,26 +649,26 @@ export const HomeScreen = ({route}: any) => {
             }}>
             <Text
               style={{
-                width: '23%',
-                fontSize: 26,
+                width: '65%',
+                fontSize: 25,
                 fontWeight: 'bold',
-                textAlign: 'center',
+                textAlign: 'left',
                 // paddingBottom: 20,
                 backgroundColor: 'white',
                 color: 'black',
               }}>
-              £ Uber
+              {data.delivery_platform_name}
             </Text>
             <Text
               style={{
-                width: 100,
-                fontSize: 26,
+                width: "32%",
+                fontSize: 25,
                 fontWeight: '700',
-                textAlign: 'center',
+                textAlign: 'right',
                 color: 'black',
                 backgroundColor: 'white',
               }}>
-              #002cd
+              {data.display_order_id}
             </Text>
           </View>
           <View
@@ -649,7 +686,7 @@ export const HomeScreen = ({route}: any) => {
                 textAlign: 'center',
                 color: 'black',
               }}>
-              Order placed: 03 Mar 2022 at 6:45pm
+              Order placed: {data.created_date_time}
             </Text>
           </View>
           <View
@@ -667,7 +704,7 @@ export const HomeScreen = ({route}: any) => {
                 textAlign: 'center',
                 color: 'black',
               }}>
-              Pickup - 03 Mar 2022 at
+              Pickup - {data.delivery_date} at
             </Text>
           </View>
           <View
@@ -686,7 +723,7 @@ export const HomeScreen = ({route}: any) => {
                 textAlign: 'center',
                 color: 'white',
               }}>
-              7.30pm
+              {data.delivery_time}
             </Text>
           </View>
           <View
@@ -697,7 +734,7 @@ export const HomeScreen = ({route}: any) => {
               width: '43%',
               backgroundColor: 'white',
               paddingTop: 10,
-              paddingBottom: 10
+              paddingBottom: 10,
             }}>
             <Text
               style={{
@@ -707,243 +744,288 @@ export const HomeScreen = ({route}: any) => {
                 textAlign: 'center',
                 color: 'black',
               }}>
-              STORE DELIVERY
+              {data.delivery_type}
             </Text>
           </View>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              width: '43%',
-              backgroundColor: 'white',
-            }}>
-            <Text
+          {data.payment_method != '' && data.payment_method != null && (
+            <View
               style={{
-                width: '100%',
-                fontSize: 16,
-                textAlign: 'center',
-                color: 'black',
+                alignItems: 'center',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: '43%',
+                backgroundColor: 'black',
               }}>
-              Unit 11, 328 Bath Road, Hounslow, TW47HWfw
-            </Text>
-          </View>
-          <View
-            style={{
-              width: '43%',
-            }}>
-            <Text 
-              style={{
-                width: '100%',
-                fontSize: 16,
-                color: 'black',
-                textAlign: 'center'
-              }}>
-               *************************************************************
-            </Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              width: '43%',
-              backgroundColor: 'white',
-            }}>
-            <Text
-              style={{
-                width: '100%',
-                fontSize: 16,
-                textAlign: 'center',
-                color: 'black',
-              }}>
-              Kasun.S
-            </Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              width: '43%',
-              backgroundColor: 'white',
-            }}>
-            <Text
-              style={{
-                width: '100%',
-                fontSize: 16,
-                textAlign: 'center',
-                color: 'black',
-              }}>
-              Contact: +44132364340
-            </Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              width: '43%',
-              backgroundColor: 'white',
-            }}>
-            <Text
-              style={{
-                width: '100%',
-                fontSize: 16,
-                textAlign: 'center',
-                color: 'black',
-              }}>
-              Pin: 6574854
-            </Text>
-          </View>
-          <View
-            style={{
-              width: '43%',
-              paddingTop: 5
-            }}>
-            <Text 
-              style={{
-                width: '100%',
-                fontSize: 16,
-                color: 'black',
-                textAlign: 'center'
-              }}>
-               *************************************************************
-            </Text>
-          </View>
-           {/* First row */}
-          <View
-            style={{
-              // alignItems: 'center',
-              flexDirection: 'row',
-              // justifyContent: 'center',
-              width: '43%',
-              backgroundColor: 'white',
-            }}>
-            <View style={{width: "10%",}}>
               <Text
                 style={{
                   width: '100%',
-                  fontSize: 16,
-                  textAlign: 'left',
-                  color: 'black',
+                  fontSize: 30,
+                  fontWeight: '400',
+                  textAlign: 'center',
+                  color: 'white',
                 }}>
-                [1x]
+                {data.payment_method}
               </Text>
             </View>
-            <View style={{width: '60%'}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  // textAlign: 'center',
-                  color: 'black',
-                  fontWeight: 'bold'
-                }}>
-                Smoking patty special
-              </Text>
-            </View>
-            <View style={{width: '30%'}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  textAlign: 'right',
-                  color: 'black',
-                }}>
-                £ 10.97
-              </Text>
-            </View>
-          </View> 
-           {/* Second row */}
+          )}
           <View
             style={{
-              // alignItems: 'center',
+              alignItems: 'center',
               flexDirection: 'row',
-              // justifyContent: 'center',
+              justifyContent: 'center',
               width: '43%',
               backgroundColor: 'white',
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              {data?.delivergate_customer?.address}
+            </Text>
+          </View>
+          <View
+            style={{
+              width: '43%',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                color: 'black',
+                textAlign: 'center',
+              }}>
+              *************************************************************
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '43%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              {data?.delivergate_customer?.first_name +
+                ' ' +
+                data?.delivergate_customer?.last_name}
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '43%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Contact: {data?.delivergate_customer?.phone}
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              width: '43%',
+              backgroundColor: 'white',
+            }}>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                textAlign: 'center',
+                color: 'black',
+              }}>
+              Pin: {data?.delivergate_customer?.contact_access_code}
+            </Text>
+          </View>
+          <View
+            style={{
+              width: '43%',
               paddingTop: 5,
             }}>
-            <View style={{width: "10%"}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  textAlign: 'left',
-                  color: 'black',
-                }}>
-                
-              </Text>
-            </View>
-            <View style={{width: '60%'}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  // textAlign: 'center',
-                  color: 'black',
-                  paddingLeft: 5,
-                  fontWeight: 'bold'
-                }}>
-                I Choice of size
-              </Text>
-            </View>
-            <View style={{width: '30%'}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  textAlign: 'right',
-                  color: 'black',
-                }}>
-               
-              </Text>
-            </View>
-          </View> 
-            {/* Third row */}
-          <View
-            style={{
-              // alignItems: 'center',
-              flexDirection: 'row',
-              // justifyContent: 'center',
-              width: '43%',
-              // backgroundColor: 'blue',
-              // paddingTop: 5,
-            }}>
-            <View style={{width: "10%"}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  textAlign: 'left',
-                  color: 'black',
-                }}>
-              </Text>
-            </View>
-            <View style={{width: '60%'}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  paddingLeft: 5,
-                  color: 'black',
-                }}> 
-                [1x] 80z
-              </Text>
-            </View>
-            <View style={{width: '30%'}}>
-              <Text
-                style={{
-                  width: '100%',
-                  fontSize: 16,
-                  textAlign: 'right',
-                  color: 'black',
-                }}>
-               
-              </Text>
-            </View>
+            <Text
+              style={{
+                width: '100%',
+                fontSize: 16,
+                color: 'black',
+                textAlign: 'center',
+              }}>
+              *************************************************************
+            </Text>
           </View>
+          <FlatList
+            data={data.items}
+            scrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item: any) => item.id}
+            renderItem={({item, index}) => {
+              return (
+                <View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      width: '43%',
+                      backgroundColor: 'white',
+                      paddingTop: 5
+                    }}>
+                    <View style={{width: '10%'}}>
+                      <Text
+                        style={{
+                          width: '100%',
+                          fontSize: 16,
+                          textAlign: 'left',
+                          color: 'black',
+                        }}>
+                        [{item.quantity}x]
+                      </Text>
+                    </View>
+                    <View style={{width: '60%'}}>
+                      <Text
+                        style={{
+                          width: '100%',
+                          fontSize: 16,
+                          // textAlign: 'center',
+                          color: 'black',
+                          fontWeight: 'bold',
+                        }}>
+                        {item.item_name}
+                      </Text>
+                    </View>
+                    <View style={{width: '30%'}}>
+                      <Text
+                        style={{
+                          width: '100%',
+                          fontSize: 16,
+                          textAlign: 'right',
+                          color: 'black',
+                        }}>
+                        £ {((item.total / 100) * item.quantity).toFixed(2)}
+                      </Text>
+                    </View>
+                  </View>
+                  {item.modifiers.length > 0 ? (
+                    <>
+                      <FlatList
+                        data={item?.modifiers}
+                        renderItem={({item, index}) => {
+                          return (
+                            <>
+                              <View
+                                style={{
+                                  // alignItems: 'center',
+                                  flexDirection: 'row',
+                                  // justifyContent: 'center',
+                                  width: '43%',
+                                  backgroundColor: 'white',
+                                  paddingTop: 5,
+                                }}>
+                                <View style={{width: '10%'}}>
+                                  <Text
+                                    style={{
+                                      width: '100%',
+                                      fontSize: 16,
+                                      textAlign: 'left',
+                                      color: 'black',
+                                    }}></Text>
+                                </View>
+                                <View style={{width: '60%'}}>
+                                  <Text
+                                    style={{
+                                      width: '100%',
+                                      fontSize: 16,
+                                      // textAlign: 'center',
+                                      color: 'black',
+                                      paddingLeft: 5,
+                                      fontWeight: 'bold',
+                                    }}>
+                                    | {item?.title}
+                                  </Text>
+                                </View>
+                                <View style={{width: '30%'}}>
+                                  <Text
+                                    style={{
+                                      width: '100%',
+                                      fontSize: 16,
+                                      textAlign: 'right',
+                                      color: 'black',
+                                    }}></Text>
+                                </View>
+                              </View>
+                              <>
+                                <FlatList
+                                  data={item?.selected_item}
+                                  renderItem={({item, index}) => {
+                                    return (
+                                      <View
+                                        style={{
+                                          flexDirection: 'row',
+                                          width: '43%',
+                                        }}>
+                                        <View style={{width: '10%'}}>
+                                          <Text
+                                            style={{
+                                              width: '100%',
+                                              fontSize: 16,
+                                              textAlign: 'left',
+                                              color: 'black',
+                                            }}></Text>
+                                        </View>
+                                        <View style={{width: '60%'}}>
+                                          <Text
+                                            style={{
+                                              width: '100%',
+                                              fontSize: 16,
+                                              paddingLeft: 5,
+                                              color: 'black',
+                                            }}>
+                                            [{parseInt(item?.quantity)}x]{' '}
+                                            {item.title}
+                                          </Text>
+                                        </View>
+                                        <View style={{width: '30%'}}>
+                                          <Text
+                                            style={{
+                                              width: '100%',
+                                              fontSize: 16,
+                                              textAlign: 'right',
+                                              color: 'black',
+                                            }}></Text>
+                                        </View>
+                                      </View>
+                                    );
+                                  }}
+                                />
+                              </>
+                            </>
+                          );
+                        }}
+                      />
+                    </>
+                  ) : null}
+                </View>
+              );
+            }}
+          />
         </View>
         <TouchableOpacity style={{marginTop: 30}} onPress={shareDummyImage}>
           <Text
